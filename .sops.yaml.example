@@ -1,0 +1,15 @@
+# Copy to .sops.yaml and fill in real age public keys, then commit it.
+# `creation_rules` decide which keys can decrypt which files.
+#
+# Get the host key:  ssh-to-age < /persist/etc/ssh/ssh_host_ed25519_key.pub
+# Get a user key:     age-keygen -o ~/.config/sops/age/keys.txt  (prints pubkey)
+keys:
+  - &host_desktop age1xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  - &user_eugene age1yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
+
+creation_rules:
+  - path_regex: secrets/[^/]+\.yaml$
+    key_groups:
+      - age:
+          - *host_desktop
+          - *user_eugene

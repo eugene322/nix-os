@@ -1,0 +1,13 @@
+# Nix build outputs
+result
+result-*
+
+# direnv / devenv local state
+.direnv/
+.devenv/
+.devenv.flake.nix
+
+# Secrets: commit encrypted files (secrets/*.yaml) and .sops.yaml (public keys
+# only). NEVER commit private age keys.
+*.age
+keys.txt
