@@ -15,8 +15,11 @@
       "input" # input devices (Wayland)
     ];
 
-    # Set a password after first boot with `passwd`, or manage it declaratively
-    # via sops-nix (users.users.eugene.hashedPasswordFile = ...).
+    # Ephemeral root: a password set via `passwd` will NOT survive a reboot.
+    # Generate a hash with `mkpasswd -m sha-512` and paste it here BEFORE first boot.
+    hashedPassword = "CHANGE_ME"; # <-- REQUIRED: replace with output of `mkpasswd -m sha-512`
+
+    # Later: manage declaratively via sops-nix (hashedPasswordFile = ...).
     # SSH key login (PasswordAuthentication is disabled in security.nix):
     # openssh.authorizedKeys.keys = [ "ssh-ed25519 AAAA... you@host" ];
   };

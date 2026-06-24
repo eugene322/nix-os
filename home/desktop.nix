@@ -9,7 +9,7 @@
       size = 13;
     };
     settings = {
-      background_opacity = "0.95";
+      # terminal opacity is managed by stylix (opacity.terminal)
       scrollback_lines = 10000;
       enable_audio_bell = false;
       window_padding_width = 8;

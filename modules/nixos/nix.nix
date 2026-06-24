@@ -1,6 +1,9 @@
 # Nix daemon settings: flakes, binary caches, GC, store dedup.
-{ ... }:
+{ pkgs, ... }:
 {
+  # git is needed to evaluate flakes from this git repo
+  environment.systemPackages = [ pkgs.git ];
+
   # Required for the proprietary NVIDIA driver, CUDA, etc.
   nixpkgs.config.allowUnfree = true;
 

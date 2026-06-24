@@ -43,7 +43,7 @@ templates/                     # стартеры dev-окружений (devenv
    Root стирается при каждой загрузке, поэтому пароль, заданный через `passwd`,
    **не переживёт перезагрузку**. Задай его декларативно:
    ```bash
-   mkpasswd -m sha-512        # введёшь пароль, получишь хэш $6$...
+   nix shell nixpkgs#mkpasswd -c mkpasswd -m sha-512   # введёшь пароль, получишь хэш $6$...
    ```
    ```nix
    users.users.eugene.hashedPassword = "$6$...";   # вставь хэш
@@ -111,6 +111,12 @@ sudo nixos-enter --root /mnt -c 'passwd eugene'
 
 reboot
 ```
+
+> **После первой загрузки:** репозиторий скопирован на шаге 5 от имени root,
+> поэтому файлы принадлежат root. Исправь владельца:
+> ```bash
+> sudo chown -R eugene:users ~/workspace/nix-os
+> ```
 
 После перезагрузки в initrd сработает откат `@` к `@-blank`, система поднимется
 с чистого root, а состояние подтянется из `/persist`, `/home`, `/nix`.
