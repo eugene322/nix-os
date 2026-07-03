@@ -24,6 +24,7 @@
       main = {
         type = "disk";
         device = "/dev/disk/by-id/ata-KINGSTON_SA400S37480G_50026B728375797E";
+        content = {
           type = "gpt";
           partitions = {
             ESP = {
