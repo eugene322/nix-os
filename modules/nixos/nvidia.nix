@@ -21,8 +21,9 @@
 
     # Driver branch. `stable` suits most desktops; RTX 50xx (Blackwell) may
     # need `beta` or `production` until support lands in stable.
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
+    # package = config.boot.kernelPackages.nvidiaPackages.stable;
     # package = config.boot.kernelPackages.nvidiaPackages.beta;
+    package = config.boot.kernelPackages.nvidiaPackages.production;
   };
 
   boot.kernelParams = [
