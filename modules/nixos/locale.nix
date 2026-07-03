@@ -1,7 +1,7 @@
 # Time, locale, console.
 { ... }:
 {
-  time.timeZone = "Europe/Kyiv";
+  time.timeZone = "Asia/Almaty";
 
   i18n.defaultLocale = "en_US.UTF-8";
 

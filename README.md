@@ -57,7 +57,7 @@ templates/                     # стартеры dev-окружений (devenv
    ```
 
 4. **Часовой пояс / локаль** — `modules/nixos/locale.nix` (по умолчанию
-   `Europe/Kyiv`, `en_US.UTF-8`). Поправь при необходимости.
+   `Asia/Almaty`, `en_US.UTF-8`). Поправь при необходимости.
 
 5. Зафиксируй:
    ```bash

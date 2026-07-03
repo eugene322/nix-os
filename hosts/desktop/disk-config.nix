@@ -23,8 +23,7 @@
     disk = {
       main = {
         type = "disk";
-        device = "/dev/nvme0n1"; # CHANGE ME — prefer /dev/disk/by-id/*
-        content = {
+        device = "/dev/disk/by-id/ata-KINGSTON_SA400S37480G_50026B728375797E";
           type = "gpt";
           partitions = {
             ESP = {
