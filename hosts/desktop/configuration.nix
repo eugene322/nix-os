@@ -10,7 +10,7 @@
     #   nixos-generate-config --no-filesystems --show-hardware-config \
     #     > hosts/desktop/hardware-configuration.nix
     # then uncomment. --no-filesystems is required so it doesn't clash with disko.
-    # ./hardware-configuration.nix
+    ./hardware-configuration.nix
     ../../modules/nixos
   ];
 
