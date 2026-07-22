@@ -52,7 +52,11 @@
     }@inputs:
     let
       system = "x86_64-linux";
-      pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
+      # Unstable packages with unfree enabled (needed for claude-code)
+      pkgs-unstable = import nixpkgs-unstable {
+        inherit system;
+        config.allowUnfree = true;
+      };
     in
     {
       nixosConfigurations.desktop = nixpkgs.lib.nixosSystem {
