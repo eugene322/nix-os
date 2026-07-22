@@ -30,6 +30,7 @@
       lazygit
       gh # GitHub CLI
       firefox
+      claude-code
     ];
 
     sessionVariables = {
