@@ -17,7 +17,7 @@
 
     # Ephemeral root: a password set via `passwd` will NOT survive a reboot.
     # Generate a hash with `mkpasswd -m sha-512` and paste it here BEFORE first boot.
-    hashedPassword = "$6$Kfac.iXK5CCPMvFr$jKxYTqFhbDImFDZEMaTBL5j7h00gz1ED1j/fqiWOlpWY/Rgw721KvS9lOxBqrnh7Cw9SBUHOddwGJW/LwC75n.";
+    hashedPassword = "$6$0Uxc8hq.hExdMGZ8$sOaWQ6Y95IYsKx5wL0hdmh6xGXsViubhqT9d0rzBhpKz/JEOZ4cKrcj8w8ub7mBCXozUT8ccAqTLWNramcoKx0";
 
     # Later: manage declaratively via sops-nix (hashedPasswordFile = ...).
     # SSH key login (PasswordAuthentication is disabled in security.nix):

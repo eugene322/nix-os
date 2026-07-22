@@ -29,6 +29,7 @@
       file
       lazygit
       gh # GitHub CLI
+      firefox
     ];
 
     sessionVariables = {
