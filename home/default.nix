@@ -1,5 +1,5 @@
 # Home Manager root for user `eugene`. Imported from flake.nix.
-{ pkgs, ... }:
+{ pkgs, pkgs-unstable, ... }:
 {
   imports = [
     ./shell.nix
@@ -30,7 +30,7 @@
       lazygit
       gh # GitHub CLI
       firefox
-      claude-code
+      pkgs-unstable.claude-code # Latest unstable version
     ];
 
     sessionVariables = {

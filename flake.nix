@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     home-manager = {
       url = "github:nix-community/home-manager/release-25.05";
@@ -39,6 +40,7 @@
     {
       self,
       nixpkgs,
+      nixpkgs-unstable,
       home-manager,
       disko,
       impermanence,
@@ -50,6 +52,7 @@
     }@inputs:
     let
       system = "x86_64-linux";
+      pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
     in
     {
       nixosConfigurations.desktop = nixpkgs.lib.nixosSystem {
@@ -65,7 +68,10 @@
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
-              extraSpecialArgs = { inherit inputs; };
+              extraSpecialArgs = {
+                inherit inputs;
+                inherit pkgs-unstable;
+              };
               users.eugene = import ./home;
             };
           }
