@@ -30,6 +30,7 @@
       lazygit
       gh # GitHub CLI
       firefox
+      helix
       pkgs-unstable.claude-code # Latest unstable version
     ];
 
