@@ -54,6 +54,7 @@
             kb_options = "grp:alt_shift_toggle";
             follow_mouse = 1;
             sensitivity = 0; # -1.0 to 1.0, 0 means no modification
+            numlock_by_default = true;
             touchpad = {
               natural_scroll = true;
               disable_while_typing = true;
@@ -103,7 +104,7 @@
           {
             _args = [
               "SUPER + B"
-              (exec "firefox")
+              (exec "brave")
             ];
           }
 

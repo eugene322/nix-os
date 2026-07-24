@@ -29,7 +29,7 @@
       file
       lazygit
       gh # GitHub CLI
-      firefox
+      brave
       helix
       pkgs-unstable.claude-code # Latest unstable version
     ];
