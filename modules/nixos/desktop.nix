@@ -25,14 +25,14 @@
   services.greetd = {
     enable = true;
     settings.default_session = {
-      command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd Hyprland";
+      command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd Hyprland";
       user = "greeter";
     };
   };
 
   environment.systemPackages = with pkgs; [
     waybar # status bar
-    rofi-wayland # launcher
+    rofi # launcher
     dunst # notifications
     swww # wallpaper daemon
     grimblast # screenshots
@@ -45,6 +45,6 @@
   fonts.packages = with pkgs; [
     nerd-fonts.jetbrains-mono
     noto-fonts
-    noto-fonts-emoji
+    noto-fonts-color-emoji
   ];
 }

@@ -8,7 +8,7 @@ This is a declarative NixOS configuration using flakes, home-manager, disko, imp
 
 **Key architectural principle**: The root subvolume (`@`) is reset to `@-blank` on every boot via an initrd systemd service. Only explicitly persisted state survives reboots.
 
-**Package channels**: Uses stable `nixos-25.05` for system packages, with `nixos-unstable` available for specific packages that need latest versions (e.g., `claude-code`).
+**Package channels**: Uses stable `nixos-26.05` for system packages, with `nixos-unstable` available for specific packages that need latest versions (e.g., `claude-code`).
 
 ## Critical Git Workflow
 

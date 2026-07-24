@@ -41,7 +41,6 @@
       # Autostart applications
       exec-once = [
         "waybar"
-        "swww-daemon" # wallpaper daemon (wallpaper set by stylix)
         "dunst" # notification daemon
         "wl-paste --type text --watch cliphist store" # clipboard history
         "wl-paste --type image --watch cliphist store"
@@ -49,7 +48,8 @@
 
       # Input configuration
       input = {
-        kb_layout = "us";
+        kb_layout = "us,ru";
+        kb_options = "grp:alt_shift_toggle";
         follow_mouse = 1;
         sensitivity = 0; # -1.0 to 1.0, 0 means no modification
         touchpad = {
@@ -82,9 +82,11 @@
           ignore_opacity = true;
         };
 
-        drop_shadow = true;
-        shadow_range = 20;
-        shadow_render_power = 3;
+        shadow = {
+          enabled = true;
+          range = 20;
+          render_power = 3;
+        };
       };
 
       # Animations
@@ -114,7 +116,7 @@
 
       # Master layout settings
       master = {
-        new_is_master = true;
+        new_status = "master";
         new_on_top = false;
       };
 
@@ -172,7 +174,6 @@
         "$mod, V, togglefloating"
         "$mod, D, exec, $menu"
         "$mod, P, pseudo" # dwindle
-        "$mod, J, togglesplit" # dwindle
         "$mod, F, fullscreen"
         "$mod, B, exec, $browser"
 
@@ -236,20 +237,9 @@
         # Clipboard history
         "$mod, C, exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy"
 
-        # Media controls
-        ", XF86AudioPlay, exec, playerctl play-pause"
-        ", XF86AudioPause, exec, playerctl play-pause"
+        # Media controls (next/prev only; play/pause/mute/volume/brightness are in bindl/binde below)
         ", XF86AudioNext, exec, playerctl next"
         ", XF86AudioPrev, exec, playerctl previous"
-
-        # Volume (if you prefer keybinds over bindl)
-        ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
-        ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
-        ", XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
-
-        # Brightness
-        ", XF86MonBrightnessUp, exec, brightnessctl set 5%+"
-        ", XF86MonBrightnessDown, exec, brightnessctl set 5%-"
       ];
 
       # Mouse bindings
@@ -444,7 +434,7 @@
   # Rofi launcher
   programs.rofi = {
     enable = true;
-    package = pkgs.rofi-wayland;
+    package = pkgs.rofi;
     extraConfig = {
       modi = "drun,run,filebrowser,window";
       show-icons = true;
