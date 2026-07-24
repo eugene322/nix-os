@@ -1,8 +1,9 @@
 # zsh + starship + zoxide + fzf.
-{ ... }:
+{ config, ... }:
 {
   programs.zsh = {
     enable = true;
+    dotDir = config.home.homeDirectory; # keep dotfiles in $HOME, not XDG config dir
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
     enableCompletion = true;

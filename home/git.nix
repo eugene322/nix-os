@@ -2,19 +2,19 @@
 {
   programs.git = {
     enable = true;
-    userName = "Eugene";
-    userEmail = "yevgeniy.batenev@gmail.com";
 
-    delta = {
-      enable = true;
-      options = {
-        navigate = true;
-        side-by-side = true;
-        line-numbers = true;
+    settings = {
+      user = {
+        name = "Eugene";
+        email = "yevgeniy.batenev@gmail.com";
       };
-    };
 
-    extraConfig = {
+      alias = {
+        st = "status -sb";
+        lg = "log --oneline --graph --all";
+        undo = "reset HEAD~1 --mixed";
+      };
+
       init.defaultBranch = "main";
       pull.rebase = true;
       push.autoSetupRemote = true;
@@ -26,11 +26,15 @@
       # commit.gpgsign = true;
       # user.signingKey = "~/.ssh/id_ed25519.pub";
     };
+  };
 
-    aliases = {
-      st = "status -sb";
-      lg = "log --oneline --graph --all";
-      undo = "reset HEAD~1 --mixed";
+  programs.delta = {
+    enable = true;
+    enableGitIntegration = true;
+    options = {
+      navigate = true;
+      side-by-side = true;
+      line-numbers = true;
     };
   };
 }

@@ -34,7 +34,7 @@
     waybar # status bar
     rofi # launcher
     dunst # notifications
-    swww # wallpaper daemon
+    awww # wallpaper daemon (formerly swww)
     grimblast # screenshots
     wl-clipboard
     cliphist # clipboard history
