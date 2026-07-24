@@ -47,23 +47,6 @@
           # { output = "DP-1"; mode = "1920x1080@144"; position = "0x0"; scale = 1; }
         ];
 
-        # Autostart applications
-        on = [
-          {
-            _args = [
-              "hyprland.start"
-              (lib.generators.mkLuaInline ''
-                function()
-                  hl.exec_cmd("waybar")
-                  hl.exec_cmd("dunst") -- notification daemon
-                  hl.exec_cmd("wl-paste --type text --watch cliphist store") -- clipboard history
-                  hl.exec_cmd("wl-paste --type image --watch cliphist store")
-                end''
-              )
-            ];
-          }
-        ];
-
         config = {
           # Input configuration
           input = {
@@ -76,241 +59,7 @@
               disable_while_typing = true;
             };
           };
-
-          # General window and border settings
-          general = {
-            gaps_in = 5;
-            gaps_out = 10;
-            border_size = 2;
-            # Colors managed by stylix
-            layout = "dwindle";
-            resize_on_border = true;
-          };
-
-          # Decoration (rounded corners, blur, shadows)
-          decoration = {
-            rounding = 8;
-            active_opacity = 1.0;
-            inactive_opacity = 0.95;
-
-            blur = {
-              enabled = true;
-              size = 6;
-              passes = 3;
-              new_optimizations = true;
-              ignore_opacity = true;
-            };
-
-            shadow = {
-              enabled = true;
-              range = 20;
-              render_power = 3;
-            };
-          };
-
-          animations = {
-            enabled = true;
-          };
-
-          # Dwindle layout settings
-          dwindle = {
-            preserve_split = true;
-            smart_split = false;
-          };
-
-          # Master layout settings
-          master = {
-            new_status = "master";
-            new_on_top = false;
-          };
-
-          # Misc settings
-          misc = {
-            disable_hyprland_logo = true;
-            disable_splash_rendering = true;
-            mouse_move_enables_dpms = true;
-            key_press_enables_dpms = true;
-            vrr = 1; # Variable refresh rate (0 = off, 1 = on, 2 = fullscreen only)
-          };
         };
-
-        # Animation curves (replaces hyprlang `bezier`)
-        curve = [
-          {
-            _args = [
-              "smoothOut"
-              {
-                type = "bezier";
-                points = [
-                  [
-                    0.36
-                    0
-                  ]
-                  [
-                    0.66
-                    (-0.56)
-                  ]
-                ];
-              }
-            ];
-          }
-          {
-            _args = [
-              "smoothIn"
-              {
-                type = "bezier";
-                points = [
-                  [
-                    0.25
-                    1
-                  ]
-                  [
-                    0.5
-                    1
-                  ]
-                ];
-              }
-            ];
-          }
-          {
-            _args = [
-              "overshot"
-              {
-                type = "bezier";
-                points = [
-                  [
-                    0.4
-                    0.8
-                  ]
-                  [
-                    0.2
-                    1.2
-                  ]
-                ];
-              }
-            ];
-          }
-        ];
-
-        # Animations (replaces hyprlang `animation` list)
-        animation = [
-          {
-            leaf = "windows";
-            enabled = true;
-            speed = 4;
-            bezier = "overshot";
-            style = "slide";
-          }
-          {
-            leaf = "windowsOut";
-            enabled = true;
-            speed = 4;
-            bezier = "smoothOut";
-            style = "slide";
-          }
-          {
-            leaf = "border";
-            enabled = true;
-            speed = 10;
-            bezier = "default";
-          }
-          {
-            leaf = "fade";
-            enabled = true;
-            speed = 10;
-            bezier = "smoothIn";
-          }
-          {
-            leaf = "fadeDim";
-            enabled = true;
-            speed = 10;
-            bezier = "smoothIn";
-          }
-          {
-            leaf = "workspaces";
-            enabled = true;
-            speed = 5;
-            bezier = "overshot";
-            style = "slidevert";
-          }
-        ];
-
-        # Trackpad workspace swipe (replaces hyprlang gestures:workspace_swipe*)
-        gesture = [
-          {
-            fingers = 3;
-            direction = "horizontal";
-            action = "workspace";
-          }
-        ];
-
-        # Window rules (replaces hyprlang windowrulev2)
-        window_rule = [
-          {
-            name = "float-pavucontrol";
-            match.class = "(pavucontrol)";
-            float = true;
-          }
-          {
-            name = "float-nm-connection-editor";
-            match.class = "(nm-connection-editor)";
-            float = true;
-          }
-          {
-            name = "float-pip";
-            match.title = "(Picture-in-Picture)";
-            float = true;
-          }
-          {
-            name = "opacity-kitty";
-            match.class = "(kitty)";
-            opacity = "0.95 0.85";
-          }
-          {
-            name = "opacity-code";
-            match.class = "(Code)";
-            opacity = "0.95 0.85";
-          }
-          {
-            name = "workspace-firefox";
-            match.class = "(firefox)";
-            workspace = "2 silent";
-          }
-          {
-            name = "workspace-code";
-            match.class = "(Code)";
-            workspace = "3 silent";
-          }
-          {
-            name = "idleinhibit-mpv";
-            match.class = "(mpv)";
-            idle_inhibit = "focus";
-          }
-          {
-            name = "idleinhibit-youtube";
-            match = {
-              class = "(firefox)";
-              title = "(.*YouTube.*)";
-            };
-            idle_inhibit = "focus";
-          }
-        ];
-
-        # Layer rules (for waybar, rofi, etc)
-        layer_rule = [
-          {
-            name = "waybar-layer";
-            match.namespace = "waybar";
-            blur = true;
-            ignore_alpha = 0;
-          }
-          {
-            name = "rofi-layer";
-            match.namespace = "rofi";
-            blur = true;
-            ignore_alpha = 0;
-          }
-        ];
 
         # Keybindings
         bind = [
@@ -341,20 +90,8 @@
           }
           {
             _args = [
-              "SUPER + V"
-              (dsp ''hl.dsp.window.float({ action = "toggle" })'')
-            ];
-          }
-          {
-            _args = [
               "SUPER + D"
               (exec "rofi -show drun")
-            ];
-          }
-          {
-            _args = [
-              "SUPER + P" # dwindle
-              (dsp "hl.dsp.window.pseudo()")
             ];
           }
           {
@@ -395,31 +132,6 @@
               (focusDir "down")
             ];
           }
-          {
-            _args = [
-              "SUPER + H"
-              (focusDir "left")
-            ];
-          }
-          {
-            _args = [
-              "SUPER + L"
-              (focusDir "right")
-            ];
-          }
-          {
-            _args = [
-              "SUPER + K"
-              (focusDir "up")
-            ];
-          }
-          {
-            _args = [
-              "SUPER + J"
-              (focusDir "down")
-            ];
-          }
-
           # Window movement
           {
             _args = [
@@ -445,31 +157,6 @@
               (moveDir "down")
             ];
           }
-          {
-            _args = [
-              "SUPER + SHIFT + H"
-              (moveDir "left")
-            ];
-          }
-          {
-            _args = [
-              "SUPER + SHIFT + L"
-              (moveDir "right")
-            ];
-          }
-          {
-            _args = [
-              "SUPER + SHIFT + K"
-              (moveDir "up")
-            ];
-          }
-          {
-            _args = [
-              "SUPER + SHIFT + J"
-              (moveDir "down")
-            ];
-          }
-
           # Workspace switching
           {
             _args = [
@@ -593,35 +280,6 @@
               (moveWs 10)
             ];
           }
-
-          # Special workspaces (scratchpad)
-          {
-            _args = [
-              "SUPER + S"
-              (dsp ''hl.dsp.workspace.toggle_special("magic")'')
-            ];
-          }
-          {
-            _args = [
-              "SUPER + SHIFT + S"
-              (moveWs "special:magic")
-            ];
-          }
-
-          # Scroll through workspaces
-          {
-            _args = [
-              "SUPER + mouse_down"
-              (focusWs "e+1")
-            ];
-          }
-          {
-            _args = [
-              "SUPER + mouse_up"
-              (focusWs "e-1")
-            ];
-          }
-
           # Screenshots
           {
             _args = [
@@ -647,89 +305,6 @@
             _args = [
               "SUPER + C"
               (exec "cliphist list | rofi -dmenu | cliphist decode | wl-copy")
-            ];
-          }
-
-          # Media controls (next/prev; play/pause/mute/volume/brightness below carry locked/repeating flags)
-          {
-            _args = [
-              "XF86AudioNext"
-              (exec "playerctl next")
-            ];
-          }
-          {
-            _args = [
-              "XF86AudioPrev"
-              (exec "playerctl previous")
-            ];
-          }
-
-          # Locked bindings (work even when locked)
-          {
-            _args = [
-              "XF86AudioMute"
-              (exec "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle")
-              { locked = true; }
-            ];
-          }
-          {
-            _args = [
-              "XF86AudioPlay"
-              (exec "playerctl play-pause")
-              { locked = true; }
-            ];
-          }
-          {
-            _args = [
-              "XF86AudioPause"
-              (exec "playerctl play-pause")
-              { locked = true; }
-            ];
-          }
-
-          # Repeat bindings (hold key to repeat)
-          {
-            _args = [
-              "XF86AudioLowerVolume"
-              (exec "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-")
-              { repeating = true; }
-            ];
-          }
-          {
-            _args = [
-              "XF86AudioRaiseVolume"
-              (exec "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+")
-              { repeating = true; }
-            ];
-          }
-          {
-            _args = [
-              "XF86MonBrightnessUp"
-              (exec "brightnessctl set 5%+")
-              { repeating = true; }
-            ];
-          }
-          {
-            _args = [
-              "XF86MonBrightnessDown"
-              (exec "brightnessctl set 5%-")
-              { repeating = true; }
-            ];
-          }
-
-          # Mouse bindings
-          {
-            _args = [
-              "SUPER + mouse:272"
-              (dsp "hl.dsp.window.drag()")
-              { mouse = true; }
-            ];
-          }
-          {
-            _args = [
-              "SUPER + mouse:273"
-              (dsp "hl.dsp.window.resize()")
-              { mouse = true; }
             ];
           }
         ];
