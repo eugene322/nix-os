@@ -1,12 +1,17 @@
 # User-level desktop configuration: Hyprland, waybar, rofi, terminal.
-{ pkgs, lib, ... }:
+{
+  pkgs,
+  lib,
+  osConfig,
+  ...
+}:
 {
   # Terminal emulator
   programs.kitty = {
     enable = true;
     font = {
       name = "JetBrainsMono Nerd Font";
-      size = 13;
+      size = 14;
     };
     settings = {
       # terminal opacity is managed by stylix (opacity.terminal)
@@ -33,18 +38,23 @@
         moveDir = dir: dsp ''hl.dsp.window.move({ direction = "${dir}" })'';
         focusWs = ws: dsp ("hl.dsp.focus({ workspace = " + builtins.toJSON ws + " })");
         moveWs = ws: dsp ("hl.dsp.window.move({ workspace = " + builtins.toJSON ws + " })");
+        isDesktop = osConfig.networking.hostName == "desktop";
       in
       {
-        # Monitor configuration (adjust for your setup)
-        monitor = [
+        # Monitor configuration
+        monitor = lib.mkIf isDesktop [
           {
-            output = ""; # Auto-detect monitors
-            mode = "preferred";
-            position = "auto";
+            output = "DP-1";
+            mode = "2560x1440@120.00Hz";
+            position = "1920x0";
             scale = 1;
           }
-          # Examples for specific setups:
-          # { output = "DP-1"; mode = "1920x1080@144"; position = "0x0"; scale = 1; }
+          {
+            output = "HDMI-A-1";
+            mode = "1920x1080@60.00Hz";
+            position = "0x0";
+            scale = 1;
+          }
         ];
 
         config = {
@@ -91,19 +101,19 @@
           }
           {
             _args = [
-              "SUPER + D"
+              "SUPER + D" # App runner
               (exec "rofi -show drun")
             ];
           }
           {
             _args = [
-              "SUPER + F"
+              "SUPER + F" # Full screen
               (dsp ''hl.dsp.window.fullscreen({ action = "toggle" })'')
             ];
           }
           {
             _args = [
-              "SUPER + B"
+              "SUPER + B" # Browser
               (exec "brave")
             ];
           }
@@ -158,129 +168,6 @@
               (moveDir "down")
             ];
           }
-          # Workspace switching
-          {
-            _args = [
-              "SUPER + 1"
-              (focusWs 1)
-            ];
-          }
-          {
-            _args = [
-              "SUPER + 2"
-              (focusWs 2)
-            ];
-          }
-          {
-            _args = [
-              "SUPER + 3"
-              (focusWs 3)
-            ];
-          }
-          {
-            _args = [
-              "SUPER + 4"
-              (focusWs 4)
-            ];
-          }
-          {
-            _args = [
-              "SUPER + 5"
-              (focusWs 5)
-            ];
-          }
-          {
-            _args = [
-              "SUPER + 6"
-              (focusWs 6)
-            ];
-          }
-          {
-            _args = [
-              "SUPER + 7"
-              (focusWs 7)
-            ];
-          }
-          {
-            _args = [
-              "SUPER + 8"
-              (focusWs 8)
-            ];
-          }
-          {
-            _args = [
-              "SUPER + 9"
-              (focusWs 9)
-            ];
-          }
-          {
-            _args = [
-              "SUPER + 0"
-              (focusWs 10)
-            ];
-          }
-
-          # Move window to workspace
-          {
-            _args = [
-              "SUPER + SHIFT + 1"
-              (moveWs 1)
-            ];
-          }
-          {
-            _args = [
-              "SUPER + SHIFT + 2"
-              (moveWs 2)
-            ];
-          }
-          {
-            _args = [
-              "SUPER + SHIFT + 3"
-              (moveWs 3)
-            ];
-          }
-          {
-            _args = [
-              "SUPER + SHIFT + 4"
-              (moveWs 4)
-            ];
-          }
-          {
-            _args = [
-              "SUPER + SHIFT + 5"
-              (moveWs 5)
-            ];
-          }
-          {
-            _args = [
-              "SUPER + SHIFT + 6"
-              (moveWs 6)
-            ];
-          }
-          {
-            _args = [
-              "SUPER + SHIFT + 7"
-              (moveWs 7)
-            ];
-          }
-          {
-            _args = [
-              "SUPER + SHIFT + 8"
-              (moveWs 8)
-            ];
-          }
-          {
-            _args = [
-              "SUPER + SHIFT + 9"
-              (moveWs 9)
-            ];
-          }
-          {
-            _args = [
-              "SUPER + SHIFT + 0"
-              (moveWs 10)
-            ];
-          }
           # Screenshots
           {
             _args = [
@@ -308,7 +195,32 @@
               (exec "cliphist list | rofi -dmenu | cliphist decode | wl-copy")
             ];
           }
-        ];
+        ]
+        # Workspace switching + move window to workspace
+        # binds $mod + [shift +] {1..9,0} to [move to] workspace {1..10}
+        ++ builtins.concatLists (
+          builtins.genList (
+            i:
+            let
+              ws = i + 1;
+              key = if ws == 10 then "0" else toString ws;
+            in
+            [
+              {
+                _args = [
+                  "SUPER + ${key}"
+                  (focusWs ws)
+                ];
+              }
+              {
+                _args = [
+                  "SUPER + SHIFT + ${key}"
+                  (moveWs ws)
+                ];
+              }
+            ]
+          ) 10
+        );
       };
   };
 
@@ -323,23 +235,24 @@
         height = 35;
         spacing = 4;
 
-        modules-left = [ "hyprland/workspaces" "hyprland/window" ];
+        modules-left = [
+          "hyprland/workspaces"
+          "hyprland/window"
+        ];
         modules-center = [ "clock" ];
-        modules-right = [ "pulseaudio" "network" "cpu" "memory" "battery" "tray" ];
+        modules-right = [
+          "pulseaudio"
+          "network"
+          "cpu"
+          "memory"
+          "tray"
+        ];
 
         "hyprland/workspaces" = {
-          format = "{icon}";
+          format = "{icon} {windows}";
           format-icons = {
-            "1" = "一";
-            "2" = "二";
-            "3" = "三";
-            "4" = "四";
-            "5" = "五";
-            "6" = "六";
-            "7" = "七";
-            "8" = "八";
-            "9" = "九";
-            "10" = "十";
+            "active" =  "◉";
+            "default" = "○";
           };
           persistent-workspaces = {
             "*" = 5; # 5 workspaces on all monitors
@@ -379,17 +292,6 @@
           format = " {}%";
         };
 
-        battery = {
-          states = {
-            warning = 30;
-            critical = 15;
-          };
-          format = "{icon} {capacity}%";
-          format-charging = " {capacity}%";
-          format-plugged = " {capacity}%";
-          format-icons = [ "" "" "" "" "" ];
-        };
-
         network = {
           format-wifi = " {essid}";
           format-ethernet = " {ipaddr}";
@@ -407,7 +309,11 @@
             phone = "";
             portable = "";
             car = "";
-            default = [ "" "" "" ];
+            default = [
+              ""
+              ""
+              ""
+            ];
           };
           on-click = "pavucontrol";
         };
