@@ -31,6 +31,7 @@
       gh # GitHub CLI
       brave
       helix
+      jetbrains.rust-rover # Rust IDE (unfree; allowed via nixpkgs.config.allowUnfree)
       pkgs-unstable.claude-code # Latest unstable version
     ];
 
