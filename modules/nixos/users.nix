@@ -13,6 +13,7 @@
       "video"
       "audio"
       "input" # input devices (Wayland)
+      "dialout" # ESPXX/Arduino and etc
     ];
 
     # Ephemeral root: a password set via `passwd` will NOT survive a reboot.
