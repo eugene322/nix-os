@@ -12,7 +12,7 @@
   };
 
   # Latest kernel; drop to use the nixpkgs default LTS.
-  boot.kernelPackages = pkgs.linuxPackages_7_1; #temp solution
+  boot.kernelPackages = pkgs.linuxPackages_6_12;
   # boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # /tmp is a persistent btrfs subvolume (@tmp) — wipe it on every boot so it
