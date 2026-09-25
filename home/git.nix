@@ -6,7 +6,7 @@
     settings = {
       user = {
         name = "Eugene";
-        email = "yevgeniy.batenev@gmail.com";
+        email = "25645669+eugene322@users.noreply.github.com";
       };
 
       alias = {
