@@ -34,6 +34,7 @@
       jetbrains.rust-rover # Rust IDE (unfree; allowed via nixpkgs.config.allowUnfree)
       pkgs-unstable.claude-code # Latest unstable version
       pkgs-unstable.codex # Latest unstable version
+      pkgs-unstable.zed-editor # Latest text editor
     ];
 
     sessionVariables = {
