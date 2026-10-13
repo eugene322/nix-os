@@ -17,7 +17,7 @@ hosts/desktop/
 modules/nixos/                 # переиспользуемые системные модули
   default.nix                  # агрегатор — комментируй строку, чтобы выключить фичу
   nix boot networking locale users security secrets
-  impermanence snapper stylix desktop nvidia
+  impermanence snapper stylix desktop nvidia ollama
 home/                          # home-manager для юзера eugene
   default shell git development desktop
 templates/                     # стартеры dev-окружений (devenv / flake) под direnv
@@ -191,3 +191,21 @@ cd ~/projects/foo
 cp -r ~/workspace/nix-os/templates/devenv/.  .   # или templates/flake/
 direnv allow                                     # активируется на cd
 ```
+
+**Локальные модели (Ollama).** Системная служба запускается автоматически;
+CLI установлен системно. При включённом модуле NVIDIA используется CUDA,
+иначе — CPU. API слушает `127.0.0.1:11434`, порт в firewall не открывается.
+Модели и ключи службы из `/var/lib/ollama` сохраняются через `/persist`
+и переживают очистку root при перезагрузке.
+
+После применения конфигурации:
+```bash
+systemctl status ollama
+ollama pull <имя-модели>      # выбрать модель: https://ollama.com/library
+ollama run <имя-модели>
+ollama list
+journalctl -u ollama -b       # журнал службы
+```
+
+Модели скачиваются явно. Для автоматической загрузки при запуске можно задать
+`services.ollama.loadModels = [ "имя-модели" ];` в `modules/nixos/ollama.nix`.

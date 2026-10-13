@@ -14,7 +14,12 @@
 #   btrfs subvolume snapshot -r "$MNT/@" "$MNT/@-blank"
 #   umount "$MNT"
 #
-{ pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   boot.initrd.systemd.enable = true;
   boot.initrd.systemd.services.rollback = {
@@ -52,12 +57,21 @@
   # worth keeping.
   environment.persistence."/persist" = {
     hideMounts = true;
-    directories = [
-      "/var/lib/nixos" # stable uid/gid map — MUST persist or ownership breaks
-      "/var/lib/systemd" # random seed, timers, coredumps
-      "/etc/NetworkManager/system-connections" # saved Wi-Fi / connections
-      "/var/lib/bluetooth"
-    ];
+    directories =
+      [
+        "/var/lib/nixos" # stable uid/gid map — MUST persist or ownership breaks
+        "/var/lib/systemd" # random seed, timers, coredumps
+        "/etc/NetworkManager/system-connections" # saved Wi-Fi / connections
+        "/var/lib/bluetooth"
+      ]
+      ++ lib.optionals config.services.ollama.enable [
+        {
+          directory = config.services.ollama.home;
+          user = config.services.ollama.user;
+          group = config.services.ollama.group;
+          mode = "0700";
+        }
+      ];
     files = [
       "/etc/machine-id"
       "/etc/ssh/ssh_host_ed25519_key"

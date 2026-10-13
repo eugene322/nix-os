@@ -15,5 +15,6 @@
     ./stylix.nix # system-wide theming
     ./desktop.nix # Hyprland — swap for another module to change DE
     ./nvidia.nix # remove this import on AMD/Intel-only machines
+    ./ollama.nix # local LLM server (CUDA on NVIDIA, CPU otherwise)
   ];
 }
