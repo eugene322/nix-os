@@ -1,5 +1,5 @@
 # Home Manager root for user `eugene`. Imported from flake.nix.
-{ pkgs, pkgs-unstable, ... }:
+{ pkgs, pkgs-unstable, osConfig, ... }:
 {
   imports = [
     ./shell.nix
@@ -22,7 +22,7 @@
       eza
       jq
       tree
-      btop
+      (if builtins.elem "nvidia" osConfig.services.xserver.videoDrivers then btop-cuda else btop)
       wget
       curl
       unzip
