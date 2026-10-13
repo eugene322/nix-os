@@ -17,7 +17,7 @@
     group = "ollama";
     host = "0.0.0.0";
     port = 11434;
-    openFirewall = false;
+    openFirewall = true;
   };
 
   # systemd cannot migrate the impermanence bind mount into /var/lib/private.
